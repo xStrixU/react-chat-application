@@ -1,0 +1,27 @@
+// source code: https://projects.lukehaas.me/css-loaders/
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+}
+
+.loader {
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border: 1.1em solid rgba(143, 143, 143, 0.2);
+  border-left: 1.1em solid var(--gray-300);
+  transform: translateZ(0);
+  animation: load8 1.1s infinite linear;
+}
+
+@keyframes load8 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

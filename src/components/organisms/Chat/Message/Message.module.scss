@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+
+  & img {
+    margin-right: 15px;
+  }
+}
+
+.wrapperOwn {
+  flex-direction: row-reverse;
+  text-align: right;
+
+  & img {
+    margin-left: 15px;
+    margin-right: 0;
+  }
+}
+
+.username {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 5px;
+  width: fit-content;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.messageOwn {
+  border-top-right-radius: 0;
+  background: var(--blue-200);
+  color: #fff;
+}
+
+.messageNotOwn {
+  border-top-left-radius: 0;
+  background: var(--gray-100);
+}

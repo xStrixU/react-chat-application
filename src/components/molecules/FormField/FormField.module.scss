@@ -1,0 +1,50 @@
+.wrapper {
+  position: relative;
+}
+
+.passwordVisibilityIcon {
+  position: absolute;
+  right: 10px;
+  top: 35px;
+  cursor: pointer;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.input {
+  border: 1px solid var(--gray-200);
+  height: 42px;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 14px;
+  color: var(--gray-400);
+  font-weight: 500;
+
+  &:focus {
+    outline: 1px solid var(--blue-300);
+    box-shadow: 0 0 13px -5px var(--blue-300);
+  }
+}
+
+.error {
+  border-color: #f00;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 13px -5px #f00;
+  }
+}
+
+.errorMessage {
+  color: #f00;
+  font-size: 14px;
+}

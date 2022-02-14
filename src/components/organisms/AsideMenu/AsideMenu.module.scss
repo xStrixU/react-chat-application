@@ -1,0 +1,26 @@
+.aside {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  width: 100%;
+  border: 1px solid var(--gray-100);
+  padding: 20px;
+}
+
+.title {
+  display: block;
+  color: var(--gray-400);
+  margin-bottom: 18px;
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--gray-400);
+  margin-bottom: 15px;
+}

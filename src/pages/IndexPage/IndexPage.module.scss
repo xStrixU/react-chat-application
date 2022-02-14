@@ -1,0 +1,18 @@
+.wrapper,
+.loadingWrapper {
+  display: flex;
+  height: 100%;
+}
+
+.loadingWrapper {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 25px;
+
+  & span {
+    display: block;
+    margin-top: 15px;
+  }
+}

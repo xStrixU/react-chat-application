@@ -1,0 +1,47 @@
+.wrapper {
+  width: fit-content;
+  margin-right: 15px;
+}
+
+.menu {
+  position: absolute;
+  width: 155px;
+  background: var(--gray-200);
+  border-radius: 5px;
+  border: 1px solid var(--gray-300);
+  z-index: 1;
+
+  &::before {
+    $size: 10px;
+
+    content: '';
+    position: absolute;
+    width: $size;
+    height: $size;
+    background-color: var(--gray-200);
+    top: -($size / 2 + 1px);
+    left: 16px;
+    border-top: var(--gray-300) solid 1px;
+    border-left: var(--gray-300) solid 1px;
+    transform: rotate(45deg);
+  }
+}
+
+.uploadFileInput {
+  display: none;
+}
+
+.menuButton {
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  padding: 10px;
+  color: var(--gray-500);
+  border-bottom: 1px solid var(--gray-300);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

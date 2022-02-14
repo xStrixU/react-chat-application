@@ -1,0 +1,21 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray-100);
+}
+
+.box {
+  width: 100%;
+  max-width: 550px;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 43px -18px rgba(66, 68, 90, 1);
+  color: var(--gray-400);
+
+  & label {
+    margin-top: 15px;
+  }
+}
