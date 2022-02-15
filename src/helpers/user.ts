@@ -107,7 +107,12 @@ export const findUsers = async (username: string) => {
     query(
       collection(getFirestore(), 'users'),
       orderBy('lowercaseUsername'),
-      where('lowercaseUsername', '>=', username)
+      where('lowercaseUsername', '>=', username),
+      where(
+        'lowercaseUsername',
+        '<',
+        username.replace(/.$/, c => String.fromCharCode(c.charCodeAt(0) + 1))
+      )
     )
   );
   const currentUser = getAuth().currentUser;
