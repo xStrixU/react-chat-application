@@ -20,6 +20,10 @@ export const ProfilePicture = ({ user }: { user: UserUid | UserData }) => {
   }, []);
 
   return (
-    <img src={profilePicture} alt="Profile picture" className={styles.image} />
+    <img
+      src={`${profilePicture}?${Date.now()}`}
+      alt="Profile picture"
+      className={styles.image}
+    />
   );
 };

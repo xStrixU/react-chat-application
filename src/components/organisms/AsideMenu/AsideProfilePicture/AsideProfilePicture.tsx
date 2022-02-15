@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import { getAuth } from 'firebase/auth';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useReducer, useRef, useState } from 'react';
 
 import { setProfilePicture } from 'helpers/user';
 
@@ -13,6 +13,7 @@ import styles from './AsideProfilePicture.module.scss';
 export const AsideProfilePicture = ({ userData }: { userData: UserData }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const uploadFileInputRef = useRef<HTMLInputElement>(null);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const handleUploadFile = async ({
     target,
@@ -31,6 +32,7 @@ export const AsideProfilePicture = ({ userData }: { userData: UserData }) => {
         timer: 3000,
         timerProgressBar: true,
       });
+      forceUpdate();
     }
   };
 
