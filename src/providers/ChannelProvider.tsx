@@ -2,14 +2,14 @@ import {
   collection,
   getFirestore,
   onSnapshot,
+  orderBy,
   query,
-  Unsubscribe,
 } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import type { ReactNode } from 'react';
 
-import { getChannelId, getMessages, getUser } from 'helpers/user';
+import { getChannelId, getUser } from 'helpers/user';
 import { useAuth } from './AuthProvider';
 
 import type {
@@ -48,81 +48,64 @@ export const ChannelProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    let unsubscribe: Unsubscribe | undefined = undefined;
+    if (!user) return;
 
-    if (user) {
-      unsubscribe = onSnapshot(
-        query(collection(getFirestore(), 'users', user.uid, 'channels')),
-        querySnapshot => {
-          querySnapshot.docChanges().forEach(async ({ doc, type }) => {
-            if (type === 'added') {
-              const channel: Channel = {
-                channelId: doc.data().channelId,
-                userData: await getUser(doc.id),
-              };
+    const unsubscribe = onSnapshot(
+      query(collection(getFirestore(), 'users', user.uid, 'channels')),
+      querySnapshot => {
+        querySnapshot.docChanges().forEach(async ({ doc, type }) => {
+          if (type === 'added') {
+            const channel: Channel = {
+              channelId: doc.data().channelId,
+              userData: await getUser(doc.id),
+            };
 
-              setChannels(channels => [channel, ...channels]);
-            }
-          });
-        }
-      );
-    }
+            setChannels(channels => [channel, ...channels]);
+          }
+        });
+      }
+    );
 
     return () => {
       setChannels([]);
       setChannel(null);
 
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      unsubscribe();
     };
   }, [user]);
 
   useEffect(() => {
-    let unsubscribe: Unsubscribe | undefined = undefined;
-    let firstMessagesSkipped = false;
+    if (!channel) return;
 
-    if (channel) {
-      getMessages(channel.channelId).then(chMessages =>
-        setMessages(messages => [...messages, ...chMessages])
-      );
+    const unsubscribe = onSnapshot(
+      query(
+        collection(getFirestore(), 'channels', channel.channelId, 'messages'),
+        orderBy('created')
+      ),
+      querySnapshot => {
+        querySnapshot.docChanges().forEach(async ({ doc, type }) => {
+          if (type === 'added') {
+            const { created, userUid, content } =
+              doc.data() as FirestoreChannelMessage;
+            const userData = await getUser(userUid);
 
-      unsubscribe = onSnapshot(
-        query(
-          collection(getFirestore(), 'channels', channel.channelId, 'messages')
-        ),
-        querySnapshot => {
-          if (!firstMessagesSkipped) {
-            firstMessagesSkipped = true;
-            return;
+            setMessages(messages => [
+              ...messages,
+              {
+                created,
+                userData,
+                content,
+              },
+            ]);
           }
-
-          querySnapshot.docChanges().forEach(async ({ doc, type }) => {
-            if (type === 'added') {
-              const { created, userUid, content } =
-                doc.data() as FirestoreChannelMessage;
-              const userData = await getUser(userUid);
-
-              setMessages(messages => [
-                ...messages,
-                {
-                  created,
-                  userData,
-                  content,
-                },
-              ]);
-            }
-          });
-        }
-      );
-    }
+        });
+      }
+    );
 
     return () => {
       setMessages([]);
 
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      unsubscribe();
     };
   }, [channel]);
 

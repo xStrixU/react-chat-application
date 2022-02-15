@@ -19,7 +19,6 @@ import { signUp as firebaseSignUp, uploadImage } from './firebase';
 
 import type {
   Channel,
-  ChannelMessage,
   FirestoreChannelMessage,
   FirestoreUserData,
   UserData,
@@ -160,29 +159,6 @@ export const getChannelId = async (uid: UserUid) => {
   return docSnap.exists()
     ? (docSnap.data().channelId as string)
     : createChannel(uid);
-};
-
-export const getMessages = async (channelId: string) => {
-  const querySnapshot = await getDocs(
-    query(
-      collection(getFirestore(), 'channels', channelId, 'messages'),
-      orderBy('created')
-    )
-  );
-  const messages: ChannelMessage[] = await Promise.all(
-    querySnapshot.docs.map(async doc => {
-      const { created, userUid, content } =
-        doc.data() as FirestoreChannelMessage;
-
-      return {
-        created,
-        content,
-        userData: await getUser(userUid),
-      };
-    })
-  );
-
-  return messages;
 };
 
 export const putMessage = async (channelId: string, content: string) => {
