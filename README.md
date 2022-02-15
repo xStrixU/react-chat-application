@@ -2,6 +2,9 @@
 
 Chat application written in ReactJS with TypeScript.
 
+## Live demo
+https://thirsty-mahavira-809bf8.netlify.app
+
 ## Technology stack
 
 - Create-React-App
