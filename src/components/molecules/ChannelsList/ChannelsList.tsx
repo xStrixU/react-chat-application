@@ -22,9 +22,7 @@ const ChannelListItem = ({
     onClick={onClick}
   >
     <ProfilePicture user={userData} />
-    <span className={styles.username}>
-      {userData.firstName} {userData.lastName}
-    </span>
+    <span className={styles.username}>{userData.username}</span>
   </div>
 );
 

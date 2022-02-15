@@ -17,7 +17,7 @@ export const AsideMenu = () => {
       <span className={styles.title}>Chat Application</span>
       <div className={styles.userInfoWrapper}>
         <AsideProfilePicture userData={userData} />
-        {`${userData.firstName} ${userData.lastName}`}
+        {userData.username}
       </div>
       <UsersSearchBar />
       <ChannelsList />

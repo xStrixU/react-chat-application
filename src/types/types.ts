@@ -20,8 +20,7 @@ export interface FirestoreChannelMessage {
 }
 
 export interface FirestoreUserData {
-  firstName: string;
-  lastName: string;
+  username: string; // firstName + lastName
 }
 
 export interface UserData extends FirestoreUserData {

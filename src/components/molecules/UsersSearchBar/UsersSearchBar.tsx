@@ -36,10 +36,8 @@ export const UsersSearchBar = () => {
       return reset();
     }
 
-    const splitted = debouncedInputValue.replace(/\s+/g, ' ').trim().split(' ');
-
     setShowUsersList(true);
-    findUsers(splitted[0] || '', splitted[1] || '').then(setFoundUsers);
+    findUsers(debouncedInputValue).then(setFoundUsers);
   }, [debouncedInputValue]);
 
   return (

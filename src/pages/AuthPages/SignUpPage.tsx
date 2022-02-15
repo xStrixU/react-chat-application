@@ -32,7 +32,7 @@ export const SignUpPage = () => {
     const { firstName, lastName, email, password } = data;
 
     try {
-      await signUp(email, password, { firstName, lastName });
+      await signUp(email, password, firstName, lastName);
 
       navigate('/');
     } catch (err) {

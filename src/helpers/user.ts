@@ -69,13 +69,18 @@ export const getUser = async (uid: UserUid) =>
 export const signUp = async (
   email: string,
   password: string,
-  data: FirestoreUserData
+  firstName: string,
+  lastName: string
 ) => {
   const {
     user: { uid },
   } = await firebaseSignUp(email, password);
+  const username = `${firstName} ${lastName}`;
 
-  await setDoc(doc(getFirestore(), 'users', uid), data);
+  await setDoc(doc(getFirestore(), 'users', uid), {
+    username,
+    lowercaseUsername: username.toLowerCase(),
+  });
   await uploadImage(`profile-pictures/${uid}.png`, defaultProfilePicture);
 };
 
@@ -97,12 +102,12 @@ export const setProfilePicture = async (image: File | string) => {
   await uploadImage(`profile-pictures/${uid}.png`, image);
 };
 
-export const findUsers = async (firstName: string, lastName: string) => {
+export const findUsers = async (username: string) => {
   const querySnapshot = await getDocs(
     query(
       collection(getFirestore(), 'users'),
-      where('firstName', '==', firstName),
-      where('lastName', '==', lastName)
+      orderBy('lowercaseUsername'),
+      where('lowercaseUsername', '>=', username)
     )
   );
   const currentUser = getAuth().currentUser;

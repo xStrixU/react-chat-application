@@ -11,7 +11,7 @@ export const Message = ({ message }: { message: ChannelMessage }) => {
 
   if (!user) return null;
 
-  const { uid, firstName, lastName } = message.userData;
+  const { uid, username } = message.userData;
   const isOwnMessage = uid === user.uid;
 
   return (
@@ -19,7 +19,7 @@ export const Message = ({ message }: { message: ChannelMessage }) => {
       <ProfilePicture user={message.userData} />
       <div>
         <span className={styles.username}>
-          {isOwnMessage ? 'You' : `${firstName} ${lastName}`}
+          {isOwnMessage ? 'You' : `${username}`}
         </span>
         <div
           className={`${styles.message} ${

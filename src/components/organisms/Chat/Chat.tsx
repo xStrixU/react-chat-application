@@ -16,9 +16,7 @@ export const Chat = () => {
 
   return (
     <div className={styles.chatWrapper}>
-      <div className={styles.header}>
-        Chatting with: {userData.firstName} {userData.lastName}
-      </div>
+      <div className={styles.header}>Chatting with: {userData.username}</div>
       <div className={styles.messagesWrapper}>
         {messages.map((message, i) => (
           <Message key={i} message={message} />

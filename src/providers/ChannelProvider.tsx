@@ -1,3 +1,10 @@
+import {
+  collection,
+  getFirestore,
+  onSnapshot,
+  query,
+  Unsubscribe,
+} from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import type { ReactNode } from 'react';
@@ -11,13 +18,6 @@ import type {
   FirestoreChannelMessage,
   UserData,
 } from 'types/types';
-import {
-  collection,
-  getFirestore,
-  onSnapshot,
-  query,
-  Unsubscribe,
-} from 'firebase/firestore';
 
 interface ChannelContextValue {
   channels: Channel[];
