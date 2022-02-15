@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import { useChannel } from 'providers/ChannelProvider';
 import { putMessage } from 'helpers/user';
@@ -11,6 +11,8 @@ import styles from './MessageInput.module.scss';
 export const MessageInput = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { channel } = useChannel();
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -18,11 +20,15 @@ export const MessageInput = () => {
 
     if (channel === null || !inputValue) return;
 
-    putMessage(channel.channelId, inputValue).then(() =>
-      console.log('sent!!!')
-    );
+    putMessage(channel.channelId, inputValue);
     setInputValue('');
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [channel]);
 
   return (
     <form
@@ -34,6 +40,7 @@ export const MessageInput = () => {
         placeholder="Your message..."
         value={inputValue}
         className={styles.input}
+        ref={inputRef}
         onChange={({ target }) => setInputValue(target.value)}
         onFocus={() => setIsInputFocused(true)}
         onBlur={() => setIsInputFocused(false)}
