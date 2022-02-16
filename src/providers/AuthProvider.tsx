@@ -5,6 +5,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -14,6 +15,9 @@ interface AuthContextValue {
   isUserLoaded: boolean;
   user: User | null;
   userData: UserData | null;
+
+  setUserData(userData: UserData): void;
+  setUserFirstTime(): void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -22,6 +26,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const isUserFirstTimeRef = useRef(false);
+
+  const setUserFirstTime = () => {
+    isUserFirstTimeRef.current = true;
+  };
 
   useEffect(
     () =>
@@ -30,13 +39,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsUserLoaded(true);
 
         if (user) {
-          const { metadata } = user;
-          const firstTime = metadata.creationTime === metadata.lastSignInTime;
+          if (isUserFirstTimeRef.current) {
+            isUserFirstTimeRef.current = false;
+            return;
+          }
 
-          setTimeout(
-            () => getUser(user.uid).then(setUserData),
-            firstTime ? 1000 : 0
-          );
+          getUser(user.uid).then(setUserData);
         } else {
           setUserData(null);
         }
@@ -45,7 +53,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <AuthContext.Provider value={{ isUserLoaded, user, userData }}>
+    <AuthContext.Provider
+      value={{ isUserLoaded, user, userData, setUserData, setUserFirstTime }}
+    >
       {children}
     </AuthContext.Provider>
   );

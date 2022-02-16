@@ -81,6 +81,8 @@ export const signUp = async (
     lowercaseUsername: username.toLowerCase(),
   });
   await uploadImage(`profile-pictures/${uid}.png`, defaultProfilePicture);
+
+  return uid;
 };
 
 export const setFirestoreData = async (data: FirestoreUserData) => {

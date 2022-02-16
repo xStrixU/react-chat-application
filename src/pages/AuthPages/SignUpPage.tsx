@@ -6,7 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import type { InferType } from 'yup';
 
-import { signUp } from 'helpers/user';
+import { useAuth } from 'providers/AuthProvider';
+import { getUser, signUp } from 'helpers/user';
 import { signUpSchema } from 'schemas/auth';
 
 import { FormField } from 'components/molecules/FormField/FormField';
@@ -27,14 +28,18 @@ export const SignUpPage = () => {
   });
   const [authError, setAuthError] = useState('');
   const navigate = useNavigate();
+  const { setUserData, setUserFirstTime } = useAuth();
 
   const onSubmit: SubmitHandler<FormValues> = async data => {
     const { firstName, lastName, email, password } = data;
 
     try {
-      await signUp(email, password, firstName, lastName);
+      setUserFirstTime();
+
+      const uid = await signUp(email, password, firstName, lastName);
 
       navigate('/');
+      getUser(uid).then(setUserData);
     } catch (err) {
       if (err instanceof FirebaseError) {
         setAuthError(err.code);
